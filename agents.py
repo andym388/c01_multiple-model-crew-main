@@ -1,10 +1,9 @@
 from crewai import Agent
 #from langchain_openai import ChatOpenAI
-from langchain_groq import ChatGroq  # Import Groq client
+from langchain_groq import ChatGroq  # type: ignore # Import Groq client
 from langchain_openai import ChatOpenAI
 import os
-from crewai_tools import SerperDevTool,WebsiteSearchTool, ScrapeWebsiteTool 
-
+from crewai_tools import SerperDevTool, WebsiteSearchTool, ScrapeWebsiteTool 
 
 
 class ResearchCrewAgents:
