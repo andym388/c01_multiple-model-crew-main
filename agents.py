@@ -1,6 +1,5 @@
 from crewai import Agent
-#from langchain_openai import ChatOpenAI
-from langchain_groq import ChatGroq  # type: ignore # Import Groq client
+from langchain_groq import ChatGroq
 from langchain_openai import ChatOpenAI
 import os
 from crewai_tools import SerperDevTool, WebsiteSearchTool, ScrapeWebsiteTool 
@@ -17,6 +16,7 @@ class ResearchCrewAgents:
 
        # OpenAI Models
         self.gpt4o = ChatOpenAI(model_name="gpt-4o", temperature=0.7)
+        self.gpt4o_mini = ChatOpenAI(model_name="gpt-4o-mini", temperature=0.7)
         self.gpt4_turbo = ChatOpenAI(model_name="gpt-4-turbo", temperature=0.7)
         self.gpt3_5_turbo_0125 = ChatOpenAI(model_name="gpt-3.5-turbo-0125", temperature=0.7)
         self.gpt3_5_turbo_1106 = ChatOpenAI(model_name="gpt-3.5-turbo-1106", temperature=0.7)
@@ -30,7 +30,9 @@ class ResearchCrewAgents:
         self.gemma_7b = ChatGroq(temperature=0.7, groq_api_key=os.environ.get("GROQ_API_KEY"), model_name="gemma-7b-it")
         
         # CHANGE YOUR MODEL HERE
-        self.selected_llm = self.gpt4o
+        #self.selected_llm = self.gpt4_turbo
+        #self.selected_llm = self.gpt4o
+        self.selected_llm = self.gpt4o_mini
     def researcher(self):
     # Detailed agent setup for the Research Expert
         return Agent(
@@ -40,8 +42,11 @@ class ResearchCrewAgents:
         verbose=True,
         allow_delegation=False,
         llm=self.selected_llm,
-        max_iter=3,
+        max_iter=5,
+        max_execution_time=100,
+        max_tokens=1000,
         tools=[self.serper, self.web, self.web_scrape],
+        #tools=[self.web, self.web_scrape],
         ) 
 
 
@@ -54,9 +59,9 @@ class ResearchCrewAgents:
             verbose=True,
             allow_delegation=False,
             llm=self.selected_llm,
-            max_iter=3,
-
-
+            max_iter=5,
+            max_execution_time=100,
+            max_tokens=1000,
         )
 
     def writer(self):
@@ -69,7 +74,8 @@ class ResearchCrewAgents:
             allow_delegation=False,
             llm=self.selected_llm,
             tools=[self.serper, self.web, self.web_scrape],
-            max_iter=3,
-
-
-        )
+            #tools=[self.web, self.web_scrape],
+            max_iter=5,
+            max_execution_time=100,
+            max_tokens=1000,
+         )

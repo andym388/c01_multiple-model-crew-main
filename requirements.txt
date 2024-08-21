@@ -1,0 +1,6 @@
+python-decouple
+langchain-groq
+langchain-openai
+crewai
+crewai-tools
+streamlit

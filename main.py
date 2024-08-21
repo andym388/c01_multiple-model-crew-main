@@ -1,11 +1,15 @@
 import os
-from decouple import config # type: ignore
+from decouple import config
 from crewai import Crew, Process
 from textwrap import dedent
+
 from agents import ResearchCrewAgents
 from tasks import ResearchCrewTasks
 
-
+# Setting environment variables
+os.environ["OPENAI_API_KEY"] = config("OPENAI_API_KEY")
+os.environ["GROQ_API_KEY"] = config("GROQ_API_KEY")
+os.environ["SERPER_API_KEY"] = config("SERPER_API_KEY")
 
 class ResearchCrew:
     def __init__(self, inputs):
